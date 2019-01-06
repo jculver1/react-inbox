@@ -11,55 +11,51 @@ class App extends Component {
     }
   }
   
-
 async componentDidMount(){
-  await fetch('http://localhost:8082/api/messages')
-  .then(function(response) {
-    return response.json()
-  })
-  .then(myJson => {
+ let response = await fetch('http://localhost:8082/api/messages')
+  let myJson = await response.json()
     this.setState({
       messages: myJson
     })
-  })
-}
-
+  
 messageRead = async (id) => {
-  console.log('message is read', id)
-
-  let message = {
+  let message ={
     messageIds: [id],
     command: 'read',
     'read': true
   }
+}
+  
+ await fetch('http://localhost:8082/api/messages', {
+  method: 'PATCH',
+  body: JSON.stringify(message),
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  }
+})
 
-    await fetch ('http://localhost:8082/api/messages', {
-    method: 'PATCH',
-    body: JSON.stringify(message),
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    }
-  })
-
-  const updateMessages = this.state.messages.map(message => {
-    if (message.id === id){
-      message.read = !message.read
-    }
-    return message
-  })
-  this.setState({
-    messages: updateMessages
-  })
+  const messageRead = (id) => {
+    console.log('message is read', id)
+    let updateMessages = this.state.messages.map(message => {
+      if (message.id === id){
+        message.read = !message.read
+      }
+      return message
+    })
+    this.setState({
+      messages: updateMessages
+    })
 }
 
-markAsReadButtonClicked = () => {
-  console.log('markedbuttonclicked')
-  const selectedMessages = this.state.messages.filter(message => message.selected === true)
-  console.log('selectedMessages', selectedMessages)
-}
+// const updateMessages = this.state.messages.map(message => {
+//   if (message.id === id) {
+//     message.read = !message.read
+//   }
+//   return message 
+// })
 
-messageSelect = async (id) => {
+messageSelect = (id) => {
   let updateSelect = this.state.messages.map(message => {
     if (message.id === id){
       message.selected = !message.selected
@@ -71,7 +67,7 @@ messageSelect = async (id) => {
   })
 }
 
-starTheMessage = async (id) => {
+starTheMessage = (id) => {
   let updateStar = this.state.messages.map(message => {
     if (message.id === id){
       message.starred = !message.starred
@@ -92,4 +88,6 @@ starTheMessage = async (id) => {
     );
   }
 }
+
 export default App; 
+

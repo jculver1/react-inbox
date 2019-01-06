@@ -3,14 +3,15 @@ import '../App.css';
 
 let Message = (props) => {
     return (
-      <div className = {props.message.read ? 'row message read' : props.message.selected ? 'row message read selected': 'row message unread'}>
+      // <div className = {props.message.read ? 'row message read' : props.message.selected ? 'row message read selected': 'row message unread'}>
+      <div className = {props.message.selected && props.message.read ? 'row message read selected': props.message.selected ? 'row message unread selected': props.message.read ? 'row message read' : 'row message unread'}>
       <div className="col-xs-1">
         <div className="row">
           <div className="col-xs-2">
-            <input type="checkbox" onClick={() => props.messageSelect(props.message.id)}/>
+            <input type="checkbox" checked={props.message.selected ? true : false} onClick={() => props.messageSelect(props.message.id)}/>
           </div>
           <div className="col-xs-2">
-            <i onClick={() => props.starTheMessage(props.message.id)} className= {`star fa fa-star${props.message.starred ? '-o' : '' }`}></i>
+            <i onClick={() => props.starTheMessage(props.message.id)} className= {`star fa fa-star${props.message.starred ? '' : '-o' }`}></i>
           </div>
         </div>
       </div>
