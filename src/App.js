@@ -54,9 +54,29 @@ messageRead = async (id) => {
 }
 
 markAsReadButtonClicked = () => {
-  console.log('markedbuttonclicked')
   const selectedMessages = this.state.messages.filter(message => message.selected === true)
-  console.log('selectedMessages', selectedMessages)
+  let updateMultipleMessagesAsRead = selectedMessages.map(message => {
+    if(message.id === message.id){
+      message.read = true 
+    }
+    return updateMultipleMessagesAsRead
+  })
+  this.setState({
+    message: updateMultipleMessagesAsRead
+  })
+}
+
+markAsUnreadButtonClicked = () => {
+  const selectedMessages = this.state.messages.filter(message => message.selected === true)
+  let updateMultipleMessagesAsUnRead = selectedMessages.map(message => {
+    if(message.id === message.id){
+      message.read = false
+    }
+    return updateMultipleMessagesAsUnRead 
+  })
+  this.setState({
+    message: updateMultipleMessagesAsUnRead
+  })
 }
 
 messageSelect = async (id) => {
@@ -86,7 +106,7 @@ starTheMessage = async (id) => {
   render() {
     return (
       <div className="container">
-        <Toolbar/>
+        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked ={this.markAsUnreadButtonClicked}/>
         <MessageList messages={this.state.messages} messageRead={this.messageRead} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}/>
       </div>
     );
