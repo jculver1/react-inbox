@@ -10,7 +10,6 @@ class App extends Component {
       messages: []
     }
   }
-  
 
 async componentDidMount(){
   await fetch('http://localhost:8082/api/messages')
@@ -25,14 +24,11 @@ async componentDidMount(){
 }
 
 messageRead = async (id) => {
-  console.log('message is read', id)
-
   let message = {
     messageIds: [id],
     command: 'read',
     'read': true
   }
-
     await fetch ('http://localhost:8082/api/messages', {
     method: 'PATCH',
     body: JSON.stringify(message),
@@ -41,7 +37,6 @@ messageRead = async (id) => {
       'Accept': 'application/json',
     }
   })
-
   const updateMessages = this.state.messages.map(message => {
     if (message.id === id){
       message.read = !message.read
@@ -56,9 +51,7 @@ messageRead = async (id) => {
 markAsReadButtonClicked = () => {
   const selectedMessages = this.state.messages.filter(message => message.selected === true)
   let updateMultipleMessagesAsRead = selectedMessages.map(message => {
-    if(message.id === message.id){
       message.read = true 
-    }
     return updateMultipleMessagesAsRead
   })
   this.setState({
@@ -69,16 +62,36 @@ markAsReadButtonClicked = () => {
 markAsUnreadButtonClicked = () => {
   const selectedMessages = this.state.messages.filter(message => message.selected === true)
   let updateMultipleMessagesAsUnRead = selectedMessages.map(message => {
-    if(message.id === message.id){
       message.read = false
-    }
-    return updateMultipleMessagesAsUnRead 
+      return updateMultipleMessagesAsUnRead 
   })
   this.setState({
     message: updateMultipleMessagesAsUnRead
   })
 }
 
+selectAllMessages = async () => {
+  let updateSelectAll = this.state.messages.map(message => {
+       message.selected = true
+       return message
+  })
+   this.setState({
+     messages: updateSelectAll
+   })
+ }
+
+unselectAllMessages = async () => {
+  let updateUnSelectAll = this.state.messages.map(message => {
+    if(message.selected.every(true)){
+      message.selected = false
+    }return message 
+  })
+  this.setState({
+    messages: updateUnSelectAll
+  })
+}
+
+//Do we need a Patch for selected?
 messageSelect = async (id) => {
   let updateSelect = this.state.messages.map(message => {
     if (message.id === id){
@@ -106,7 +119,7 @@ starTheMessage = async (id) => {
   render() {
     return (
       <div className="container">
-        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked ={this.markAsUnreadButtonClicked}/>
+        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked ={this.markAsUnreadButtonClicked} selectAllMessages={this.selectAllMessages} unselectAllMessages={this.unselectAllMessages}/>
         <MessageList messages={this.state.messages} messageRead={this.messageRead} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}/>
       </div>
     );
