@@ -3,7 +3,6 @@ import '../App.css';
 
 let Message = (props) => {
     return (
-      // <div className = {props.message.read ? 'row message read' : props.message.selected ? 'row message read selected': 'row message unread'}>
       <div className = {props.message.selected && props.message.read ? 'row message read selected': props.message.selected ? 'row message unread selected': props.message.read ? 'row message read' : 'row message unread'}>
       <div className="col-xs-1">
         <div className="row">

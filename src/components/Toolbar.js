@@ -10,7 +10,7 @@ const Toolbar =(props) => {
             unread messages
           </p>
       
-          <button className="btn btn-default" onClick={() => props.selectAllMessages() || props.unselectAllMessages()}> 
+          <button className="btn btn-default" onClick={() => props.updateSelectAll()}> 
             <i className={true? "fa fa-check-square-o" : "fa fa-minus-square-o"}></i>
           </button>
       

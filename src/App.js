@@ -17,6 +17,11 @@ async componentDidMount(){
     return response.json()
   })
   .then(myJson => {
+    myJson.map(message => {
+      if (!message.selected){
+        message.selected = false
+      }}
+    )
     this.setState({
       messages: myJson
     })
@@ -24,8 +29,9 @@ async componentDidMount(){
 }
 
 messageRead = async (id) => {
+
   let message = {
-    messageIds: [id],
+   messageIds: [id],
     command: 'read',
     'read': true
   }
@@ -37,6 +43,7 @@ messageRead = async (id) => {
       'Accept': 'application/json',
     }
   })
+
   const updateMessages = this.state.messages.map(message => {
     if (message.id === id){
       message.read = !message.read
@@ -70,28 +77,18 @@ markAsUnreadButtonClicked = () => {
   })
 }
 
-selectAllMessages = async () => {
-  let updateSelectAll = this.state.messages.map(message => {
+updateSelectAll = () => { 
+  const updateSelect = this.state.messages.map(message => {
+    if(message.selected === false){
        message.selected = true
-       return message
+    }
+    return message
   })
    this.setState({
-     messages: updateSelectAll
+     messages: updateSelect
    })
- }
+  }
 
-unselectAllMessages = async () => {
-  let updateUnSelectAll = this.state.messages.map(message => {
-    if(message.selected.every(true)){
-      message.selected = false
-    }return message 
-  })
-  this.setState({
-    messages: updateUnSelectAll
-  })
-}
-
-//Do we need a Patch for selected?
 messageSelect = async (id) => {
   let updateSelect = this.state.messages.map(message => {
     if (message.id === id){
@@ -119,7 +116,7 @@ starTheMessage = async (id) => {
   render() {
     return (
       <div className="container">
-        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked ={this.markAsUnreadButtonClicked} selectAllMessages={this.selectAllMessages} unselectAllMessages={this.unselectAllMessages}/>
+        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked ={this.markAsUnreadButtonClicked} selectAllMessages={this.selectAllMessages} updateSelectAll={this.updateSelectAll}/>
         <MessageList messages={this.state.messages} messageRead={this.messageRead} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}/>
       </div>
     );
