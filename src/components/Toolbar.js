@@ -1,6 +1,7 @@
 import React from 'react';
 import '../App.css';
 
+
 const Toolbar =(props) => {
     return (
         <div className="row toolbar">
@@ -11,8 +12,9 @@ const Toolbar =(props) => {
           </p>
       
           <button className="btn btn-default" onClick={()=> props.selectAll()}> 
-            <i className= 'fa-check-square-o'></i>
-            {/* {true ? "fa fa-check-square-o" : false ? "fa fa-square-o" : "fa fa-minus-square-o"} */}
+            <i className={props.messages.every(message => message.selected === true) ? 'fa fa-check-square-o' 
+            : props.messages.every( message => message.selected === false) ? 'fa fa-minus-square-o' 
+            : 'fa fa-square-o'}></i>
           </button>
       
           <button className="btn btn-default" onClick={()=> props.markAsReadButtonClicked()}>

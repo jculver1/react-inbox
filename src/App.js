@@ -90,7 +90,18 @@ markAsUnreadButtonClicked = async () => {
      messages: updateSelectAll
    })
  }
- 
+
+ changeButtonSelect = () => {
+   let className = ''
+  this.state.messages.map(message => {
+    if(this.state.messages.every(message => message.selected === false)){
+      className='fa fa-check-square-o'
+    }else if(this.state.messages.every(message => message.selected === true)){
+      className='fa fa-check-square-o'
+    } return className 
+    })
+} 
+
 starTheMessage = async (id) => {
   let updateStar = this.state.messages.map(message => {
     if (message.id === id){
@@ -107,7 +118,7 @@ starTheMessage = async (id) => {
   render() {
     return (
       <div className="container">
-        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll}/>
+        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll} messages={this.state.messages} changeButtonSelect={this.changeButtonSelect}/>
         <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}
         />
       </div>
