@@ -5,13 +5,9 @@ import Message from './Message.js'
 const MessageList = (props) => {
     return (
      props.messages.map(message => {
-       return <Message message={message} messageRead={props.messageRead} messageSelect={props.messageSelect} starTheMessage={props.starTheMessage}/>
+       return <Message message={message} messageSelect={props.messageSelect} starTheMessage={props.starTheMessage}/>
      })
     )
   }
 
-
-
 export default MessageList
-
-

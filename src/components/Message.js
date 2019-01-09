@@ -14,7 +14,7 @@ let Message = (props) => {
           </div>
         </div>
       </div>
-      <div className='col-xs-11' onClick={() => props.messageRead(props.message.id)}>
+      <div className='col-xs-11'>
       <span className={props.message.labels.includes('dev') ? "label label-warning" : 'hidden'}>dev</span>
       <span className={props.message.labels.includes('gschool') ? "label label-warning" : 'hidden'}>gschool</span>
       <span className={props.message.labels.includes('personal') ? "label label-warning" : 'hidden'}>personal</span>
@@ -29,5 +29,3 @@ let Message = (props) => {
 
 
 export default Message
-
-

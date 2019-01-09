@@ -10,7 +10,6 @@ class App extends Component {
       messages: []
     }
   }
-
 async componentDidMount(){
   await fetch('http://localhost:8082/api/messages')
   .then(function(response) {
@@ -18,9 +17,8 @@ async componentDidMount(){
   })
   .then(myJson => {
     myJson.map(message => {
-      if (!message.selected){
         message.selected = false
-      }}
+      }
     )
     this.setState({
       messages: myJson
@@ -28,65 +26,20 @@ async componentDidMount(){
   })
 }
 
-messageRead = async (id) => {
-
+updates = async (id, command, prop, value) => {
   let message = {
-   messageIds: [id],
-    command: 'read',
-    'read': true
+    messageIds: [id],
+    command: command,
+    [prop]: value
   }
-    await fetch ('http://localhost:8082/api/messages', {
-    method: 'PATCH',
-    body: JSON.stringify(message),
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    }
-  })
-
-  const updateMessages = this.state.messages.map(message => {
-    if (message.id === id){
-      message.read = !message.read
-    }
-    return message
-  })
-  this.setState({
-    messages: updateMessages
-  })
-}
-
-markAsReadButtonClicked = () => {
-  const selectedMessages = this.state.messages.filter(message => message.selected === true)
-  let updateMultipleMessagesAsRead = selectedMessages.map(message => {
-      message.read = true 
-    return updateMultipleMessagesAsRead
-  })
-  this.setState({
-    message: updateMultipleMessagesAsRead
-  })
-}
-
-markAsUnreadButtonClicked = () => {
-  const selectedMessages = this.state.messages.filter(message => message.selected === true)
-  let updateMultipleMessagesAsUnRead = selectedMessages.map(message => {
-      message.read = false
-      return updateMultipleMessagesAsUnRead 
-  })
-  this.setState({
-    message: updateMultipleMessagesAsUnRead
-  })
-}
-
-updateSelectAll = () => { 
-  const updateSelect = this.state.messages.map(message => {
-    if(message.selected === false){
-       message.selected = true
-    }
-    return message
-  })
-   this.setState({
-     messages: updateSelect
-   })
+    await fetch("http://localhost:8082/api/messages", {
+      method: "PATCH",
+      body: JSON.stringify(message),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      }
+    })
   }
 
 messageSelect = async (id) => {
@@ -101,6 +54,43 @@ messageSelect = async (id) => {
   })
 }
 
+markAsReadButtonClicked = async () => {
+  let updateMultipleMessagesAsRead = this.state.messages.map(message => { 
+    if(message.selected === true){
+      message.read = true 
+      this.updates(message.id, 'read', 'read', true)
+    } 
+  return message 
+  })
+  this.setState({
+    messages: updateMultipleMessagesAsRead
+  })
+}
+
+markAsUnreadButtonClicked = async () => {
+  let updateMultipleMessagesAsUnRead = this.state.messages.map(message => {
+    if(message.selected === true){
+      message.read = false
+      this.updates(message.id, 'read', 'read', false)
+    }
+    return message  
+  })
+  this.setState({
+    messages: updateMultipleMessagesAsUnRead
+  })
+}
+
+ selectAll = async () => {
+  let checkifChecked = this.state.messages.every(message => message.selected === true)
+  let updateSelectAll = this.state.messages.map(message => {
+    checkifChecked ? message.selected = false : message.selected = true 
+    return message 
+  }) 
+  this.setState({
+     messages: updateSelectAll
+   })
+ }
+ 
 starTheMessage = async (id) => {
   let updateStar = this.state.messages.map(message => {
     if (message.id === id){
@@ -111,13 +101,15 @@ starTheMessage = async (id) => {
   this.setState({
     messages: updateStar
   })
+  this.updates(id, 'star', 'star', true)
 }
 
   render() {
     return (
       <div className="container">
-        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked ={this.markAsUnreadButtonClicked} selectAllMessages={this.selectAllMessages} updateSelectAll={this.updateSelectAll}/>
-        <MessageList messages={this.state.messages} messageRead={this.messageRead} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}/>
+        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll}/>
+        <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}
+        />
       </div>
     );
   }
