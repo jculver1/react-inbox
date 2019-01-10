@@ -115,10 +115,24 @@ starTheMessage = async (id) => {
   this.updates(id, 'star', 'star', true)
 }
 
+deleteMessage = async () => {
+  let getSelected = this.state.messages.map(message => {
+    if(message.selected === true){
+      message.id = []
+       //this.updates(message.id, 'delete', 'delete', true)
+    }
+    return message
+  })
+  
+  this.setState({
+    messages: getSelected
+  })
+}
+
   render() {
     return (
       <div className="container">
-        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll} messages={this.state.messages} changeButtonSelect={this.changeButtonSelect}/>
+        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll} messages={this.state.messages} changeButtonSelect={this.changeButtonSelect} deleteMessage={this.deleteMessage}/>
         <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}
         />
       </div>
