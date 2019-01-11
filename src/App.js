@@ -116,23 +116,31 @@ starTheMessage = async (id) => {
 }
 
 deleteMessage = async () => {
-  let getSelected = this.state.messages.map(message => {
-    if(message.selected === true){
-      message.id = []
-       //this.updates(message.id, 'delete', 'delete', true)
+  let messages = this.state.messages
+  for (let i =0; i<  messages.length; i++){
+    if(messages[i].selected === true){
+      messages.splice(i, 1) 
     }
-    return message
-  })
-  
+    return messages 
+  }
   this.setState({
-    messages: getSelected
+    messages: messages
   })
+}
+
+
+applyLabel = (event) => {
+  event.preventDefault()
+  console.log(event.target.value)
+  // let getSelected = this.state.messages.map(message => {
+
+  // })
 }
 
   render() {
     return (
       <div className="container">
-        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll} messages={this.state.messages} changeButtonSelect={this.changeButtonSelect} deleteMessage={this.deleteMessage}/>
+        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll} messages={this.state.messages} changeButtonSelect={this.changeButtonSelect} deleteMessage={this.deleteMessage} applyLabel={this.applyLabel}/>
         <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}
         />
       </div>

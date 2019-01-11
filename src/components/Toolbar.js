@@ -25,15 +25,15 @@ const Toolbar =(props) => {
             Mark As Unread
           </button>
       
-          <select className="form-control label-select">
-            <option>Apply label</option>
+          <select onClick={()=>props.applyLabel()} className="form-control label-select">
+            <option disabled>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
       
           <select className="form-control label-select">
-            <option>Remove label</option>
+            <option disabled>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
