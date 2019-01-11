@@ -7,7 +7,7 @@ const Toolbar =(props) => {
         <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge badge">2</span>
+            <span className="badge badge">{props.countUnreadMessages()}</span>
             unread messages
           </p>
       
@@ -25,21 +25,21 @@ const Toolbar =(props) => {
             Mark As Unread
           </button>
       
-          <select onClick={()=>props.applyLabel()} className="form-control label-select">
+          <select onChange={(event)=>props.applyLabel(event)} className="form-control label-select">
             <option disabled>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
       
-          <select className="form-control label-select">
+          <select onChange={(event)=>props.removeLabel(event)} className="form-control label-select">
             <option disabled>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
       
-          <button className="btn btn-default" onClick={()=>props.deleteMessage()}>
+          <button className="btn btn-default" onClick={props.deleteMessage}>
             <i className="fa fa-trash-o"></i>
           </button>
         </div>

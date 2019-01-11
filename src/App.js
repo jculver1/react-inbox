@@ -54,6 +54,15 @@ messageSelect = async (id) => {
   })
 }
 
+deleteMessage = async () => {
+  var newMessages = this.state.messages.filter(message => !message.selected)
+  var newMessagesId = this.state.messages.map(message => message.id)
+  this.updates(newMessagesId, 'delete', 'delete', true)
+  this.setState({
+    messages: newMessages
+  })
+}
+
 markAsReadButtonClicked = async () => {
   let updateMultipleMessagesAsRead = this.state.messages.map(message => { 
     if(message.selected === true){
@@ -80,6 +89,11 @@ markAsUnreadButtonClicked = async () => {
   })
 }
 
+countUnreadMessages = () => {
+  let unreadMessages = this.state.messages.filter(message => message.read === false)
+   return unreadMessages.length
+}
+
  selectAll = async () => {
   let checkifChecked = this.state.messages.every(message => message.selected === true)
   let updateSelectAll = this.state.messages.map(message => {
@@ -93,7 +107,7 @@ markAsUnreadButtonClicked = async () => {
 
  changeButtonSelect = () => {
    let className = ''
-  this.state.messages.map(message => {
+    this.state.messages.map(message => {
     if(this.state.messages.every(message => message.selected === false)){
       className='fa fa-check-square-o'
     }else if(this.state.messages.every(message => message.selected === true)){
@@ -115,32 +129,38 @@ starTheMessage = async (id) => {
   this.updates(id, 'star', 'star', true)
 }
 
-deleteMessage = async () => {
-  let messages = this.state.messages
-  for (let i =0; i<  messages.length; i++){
-    if(messages[i].selected === true){
-      messages.splice(i, 1) 
-    }
-    return messages 
-  }
+applyLabel = (event) => {
+ event.preventDefault()
+  let findSelected = this.state.messages.map(message => {
+    if(message.selected === true && !message.labels.includes(event.target.value)){
+      message.labels.push(event.target.value)
+     // this.updates(message.id, 'addLabel', 'label', message.labels.push(event.target.value))
+    }return message
+  })
   this.setState({
-    messages: messages
+    messages: findSelected
   })
 }
 
+removeLabel = (event) => {
+   let findSelected = this.state.messages.map(message => {
+     if(message.selected === true && message.labels.includes(event.target.value)){
+      let index = message.labels.indexOf(event.target.value)
+      console.log(message.id, index)
+       message.labels.splice(index, 1)
+       //this.updates(message.id, 'removeLabel', 'label', message.labels.push(event.target.value))
+     }return message
+   })
+   this.setState({
+     messages: findSelected
+   })
+ }
 
-applyLabel = (event) => {
-  event.preventDefault()
-  console.log(event.target.value)
-  // let getSelected = this.state.messages.map(message => {
-
-  // })
-}
 
   render() {
     return (
       <div className="container">
-        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll} messages={this.state.messages} changeButtonSelect={this.changeButtonSelect} deleteMessage={this.deleteMessage} applyLabel={this.applyLabel}/>
+        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll} messages={this.state.messages} changeButtonSelect={this.changeButtonSelect} deleteMessage={this.deleteMessage} applyLabel={this.applyLabel} removeLabel={this.removeLabel} countUnreadMessages={this.countUnreadMessages}/>
         <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}
         />
       </div>
