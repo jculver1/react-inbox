@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import './App.css';
 import Toolbar from './components/Toolbar'
 import MessageList from './components/MessageList'
+import Compose from './components/compose'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      messages: []
+      messages: [],
+      toggle : false
     }
   }
+
 async componentDidMount(){
   await fetch('http://localhost:8082/api/messages')
   .then(function(response) {
@@ -156,11 +159,55 @@ removeLabel = (event) => {
    })
  }
 
+composeForm = () => { 
+      this.setState({
+        toggle: !this.state.toggle
+  })
+  }
+
+// getBodyofEmail = (event) => {
+//   let getBody
+// }
+
+subjectOfEmail = (event) => {
+  event.preventDefault()
+  let subject = event.target.value
+  return subject
+}
+
+bodyofEmail = (event) => {
+  event.preventDefault()
+  let body = event.target.value 
+  return body
+}
+
+submitForm = () => {
+  let bodyEvent = this.bodyofEmail()
+  let subjectEvent = this.subjectOfEmail()
+  let submitEvent = () => {
+    let newMessage = {
+      body: bodyEvent,
+      id: this.state.messages.length + 1,
+      labels: [],
+      read: false,
+      selected: false,
+      starred: false,
+      subject: subjectEvent
+    }
+    return newMessage
+  }
+  this.setState({
+    messages: {...this.state.messages, submitEvent} 
+  })
+  }
 
   render() {
     return (
       <div className="container">
-        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll} messages={this.state.messages} changeButtonSelect={this.changeButtonSelect} deleteMessage={this.deleteMessage} applyLabel={this.applyLabel} removeLabel={this.removeLabel} countUnreadMessages={this.countUnreadMessages}/>
+        <Toolbar markAsReadButtonClicked={this.markAsReadButtonClicked} markAsUnreadButtonClicked={this.markAsUnreadButtonClicked} selectAll={this.selectAll} messages={this.state.messages} changeButtonSelect={this.changeButtonSelect} deleteMessage={this.deleteMessage} applyLabel={this.applyLabel} removeLabel={this.removeLabel} countUnreadMessages={this.countUnreadMessages} composeForm={this.composeForm}
+        />
+        <div> {this.state.toggle ? <Compose submitForm={this.submitForm} bodyofEmail={this.bodyofEmail} subjectOfEmail={this.subjectOfEmail}/> : ''}
+        </div>
         <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}
         />
       </div>

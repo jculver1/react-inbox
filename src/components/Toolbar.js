@@ -10,10 +10,13 @@ const Toolbar =(props) => {
             <span className="badge badge">{props.countUnreadMessages()}</span>
             unread messages
           </p>
-      
+
+        <a class="btn btn-danger" onClick={props.composeForm}>
+            <i class="fa fa-plus"></i>
+        </a>
           <button className="btn btn-default" onClick={()=> props.selectAll()}> 
             <i className={props.messages.every(message => message.selected === true) ? 'fa fa-check-square-o' 
-            : props.messages.every( message => message.selected === false) ? 'fa fa-minus-square-o' 
+            : props.messages.every(message => message.selected === false) ? 'fa fa-minus-square-o' 
             : 'fa fa-square-o'}></i>
           </button>
       
