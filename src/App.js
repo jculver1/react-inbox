@@ -9,7 +9,8 @@ class App extends Component {
     super(props)
     this.state = {
       messages: [],
-      toggle : false
+      toggle : false,
+      bodyOfMessage: true
     }
   }
 
@@ -203,6 +204,15 @@ submitForm = (event) => {
   })
   }
 
+  addBodyOfMessage = (id) => {
+    this.state.messages.map(message => {
+      if (message.id === id){
+        return message.body
+      }
+      return message
+    })
+}
+
   render() {
     return (
       <div className="container">
@@ -210,7 +220,7 @@ submitForm = (event) => {
         />
         <div> {this.state.toggle ? <Compose submitForm={this.submitForm} bodyofEmail={this.bodyofEmail} subjectOfEmail={this.subjectOfEmail}/> : ''}
         </div>
-        <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage}
+        <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage} addBodyOfMessage={this.addBodyOfMessage} bodyOfMessage={this.state.bodyOfMessage}
         />
       </div>
     );

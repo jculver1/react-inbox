@@ -1,6 +1,8 @@
 import React from 'react';
 import '../App.css';
 
+let addBodyOfMessage = () => !props.message.body
+
 let Message = (props) => {
     return (
       <div>
@@ -19,14 +21,14 @@ let Message = (props) => {
       <span className={props.message.labels.includes('dev') ? "label label-warning" : 'hidden'}>dev</span>
       <span className={props.message.labels.includes('gschool') ? "label label-warning" : 'hidden'}>gschool</span>
       <span className={props.message.labels.includes('personal') ? "label label-warning" : 'hidden'}>personal</span>
-        <a href="#">
-          {props.message.subject}
+        <a href="#"  onClick={() => props.addBodyOfMessage(props.message.id)}>
+          {props.message.subject} 
         </a>
       </div>
     </div>
       <div class="row message-body">
         <div class="col-xs-11 col-xs-offset-1">
-          {props.message.body}
+          {addBodyOfMessage()}
         </div>
       </div>
     </div>
