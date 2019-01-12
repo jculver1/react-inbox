@@ -181,7 +181,8 @@ bodyofEmail = (event) => {
   return body
 }
 
-submitForm = () => {
+submitForm = (event) => {
+  event.preventDefault()
   let bodyEvent = this.bodyofEmail()
   let subjectEvent = this.subjectOfEmail()
   let submitEvent = () => {
@@ -195,6 +196,7 @@ submitForm = () => {
       subject: subjectEvent
     }
     return newMessage
+
   }
   this.setState({
     messages: {submitEvent, ...this.state.messages} 

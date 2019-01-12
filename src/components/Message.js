@@ -3,6 +3,7 @@ import '../App.css';
 
 let Message = (props) => {
     return (
+      <div>
       <div className = {props.message.selected && props.message.read ? 'row message read selected': props.message.selected ? 'row message unread selected': props.message.read ? 'row message read' : 'row message unread'}>
       <div className="col-xs-1">
         <div className="row">
@@ -21,6 +22,12 @@ let Message = (props) => {
         <a href="#">
           {props.message.subject}
         </a>
+      </div>
+    </div>
+      <div class="row message-body">
+        <div class="col-xs-11 col-xs-offset-1">
+          {props.message.body}
+        </div>
       </div>
     </div>
     )
