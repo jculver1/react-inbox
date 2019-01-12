@@ -197,7 +197,7 @@ submitForm = () => {
     return newMessage
   }
   this.setState({
-    messages: {...this.state.messages, submitEvent} 
+    messages: {submitEvent, ...this.state.messages} 
   })
   }
 
