@@ -69,7 +69,7 @@ deleteMessage = async () => {
   this.setState({
     messages: newMessages
   })
-}
+} 
 
 markAsReadButtonClicked = async () => {
   let updateMultipleMessagesAsRead = this.state.messages.map(message => { 
@@ -207,18 +207,12 @@ submitForm = (event) => {
   })
   }
 
+
   addBodyOfMessage = (id) => {
     let findMessage = this.state.messages.filter(message => message.id === id).map(message => message.body)
     console.log(findMessage[0])
     return findMessage[0]
     }
-
-
-  addBodyOfMessage = (id) => {
-    let findMessage = this.state.messages.filter(message => message.id === id).map(message => message.body)
-    console.log(findMessage[0])
-     return findMessage[0]
-  }  
 
   render() {
     return (
