@@ -138,7 +138,7 @@ applyLabel = (event) => {
   let findSelected = this.state.messages.map(message => {
     if(message.selected === true && !message.labels.includes(event.target.value)){
       message.labels.push(event.target.value)
-     // this.updates(message.id, 'addLabel', 'label', message.labels.push(event.target.value))
+      this.updates(message.id, 'addLabel', 'label', event.target.value)
     }return message
   })
   this.setState({
@@ -150,9 +150,8 @@ removeLabel = (event) => {
    let findSelected = this.state.messages.map(message => {
      if(message.selected === true && message.labels.includes(event.target.value)){
       let index = message.labels.indexOf(event.target.value)
-      console.log(message.id, index)
        message.labels.splice(index, 1)
-       //this.updates(message.id, 'removeLabel', 'label', message.labels.push(event.target.value))
+       this.updates(message.id, 'removeLabel', 'label', event.target.value)
      }return message
    })
    this.setState({
@@ -205,13 +204,17 @@ submitForm = (event) => {
   }
 
   addBodyOfMessage = (id) => {
-    this.state.messages.map(message => {
-      if (message.id === id){
-        return message.body
-      }
-      return message
-    })
-}
+    let findMessage = this.state.messages.filter(message => message.id === id).map(message => message.body)
+    console.log(findMessage[0])
+    return findMessage[0]
+    }
+
+
+  addBodyOfMessage = (id) => {
+    let findMessage = this.state.messages.filter(message => message.id === id).map(message => message.body)
+    console.log(findMessage[0])
+     return findMessage[0]
+  }  
 
   render() {
     return (
@@ -220,7 +223,7 @@ submitForm = (event) => {
         />
         <div> {this.state.toggle ? <Compose submitForm={this.submitForm} bodyofEmail={this.bodyofEmail} subjectOfEmail={this.subjectOfEmail}/> : ''}
         </div>
-        <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage} addBodyOfMessage={this.addBodyOfMessage} bodyOfMessage={this.state.bodyOfMessage}
+        <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage} addBodyOfMessage={this.addBodyOfMessage}
         />
       </div>
     );
