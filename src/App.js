@@ -59,9 +59,13 @@ messageSelect = async (id) => {
 }
 
 deleteMessage = async () => {
-  var newMessages = this.state.messages.filter(message => !message.selected)
-  var newMessagesId = this.state.messages.map(message => message.id)
-  this.updates(newMessagesId, 'delete', 'delete', true)
+  let newMessages = this.state.messages.filter(message => !message.selected)
+  let newMessagesId = this.state.messages.map(message => {
+    if(message.selected === true){
+      this.updates(message.id, 'delete', 'delete')
+    }
+    return newMessagesId
+  })
   this.setState({
     messages: newMessages
   })
@@ -223,7 +227,7 @@ submitForm = (event) => {
         />
         <div> {this.state.toggle ? <Compose submitForm={this.submitForm} bodyofEmail={this.bodyofEmail} subjectOfEmail={this.subjectOfEmail}/> : ''}
         </div>
-        <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage} addBodyOfMessage={this.addBodyOfMessage}
+        <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage} 
         />
       </div>
     );
