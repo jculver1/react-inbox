@@ -185,28 +185,28 @@ bodyofEmail = (event) => {
   return body
 }
 
-submitForm = (event) => {
-  event.preventDefault()
+submitForm = () => {
   let bodyEvent = this.bodyofEmail()
   let subjectEvent = this.subjectOfEmail()
-  let submitEvent = () => {
-    let newMessage = {
-      body: bodyEvent,
-      id: this.state.messages.length + 1,
-      labels: [],
-      read: false,
-      selected: false,
-      starred: false,
-      subject: subjectEvent
+
+  let message = {
+    subject: subjectEvent,
+    body: bodyEvent,
+    read: false,
+    starred: false,
+    labels: [],
+  }
+
+  fetch('http://localhost:8082/api/messages', {
+    method: 'POST',
+    body: JSON.stringify(message), 
+    headers:{
+      'Content-Type': 'application/json'
     }
-    return newMessage
-
+  }).then(res => res.json())
+  .then(response => console.log('Success:', JSON.stringify(response)))
+  .catch(error => console.error('Error:', error));
   }
-  this.setState({
-    messages: {submitEvent, ...this.state.messages} 
-  })
-  }
-
 
   addBodyOfMessage = (id) => {
     let findMessage = this.state.messages.filter(message => message.id === id).map(message => message.body)
