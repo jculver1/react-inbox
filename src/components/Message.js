@@ -1,6 +1,15 @@
 import React from 'react';
 import '../App.css';
 
+// let addBody = {
+//        <div class= { addBodyOfMessage() === true ? "row message-body" : "hidden"}>
+//           <div class={true ? "col-xs-11 col-xs-offset-1" : 'hidden'}>
+//             {props.addBodyOfMessage}
+//           </div>
+//         </div>
+         
+// }
+
 
 let Message = (props) => {
     return (
@@ -17,20 +26,19 @@ let Message = (props) => {
         </div>
       </div>
       <div className='col-xs-11'>
-      <span className={props.message.labels.includes('dev') ? "label label-warning" : 'hidden'}>dev</span>
-      <span className={props.message.labels.includes('gschool') ? "label label-warning" : 'hidden'}>gschool</span>
-      <span className={props.message.labels.includes('personal') ? "label label-warning" : 'hidden'}>personal</span>
+      <span className={props.message.labels.includes('dev') ? "label label-warning" : "hidden"}>dev</span>
+      <span className={props.message.labels.includes('gschool') ? "label label-warning" : "hidden"}>gschool</span>
+      <span className={props.message.labels.includes('personal') ? "label label-warning" : "hidden"}>personal</span>
         <a href="#" onClick={()=> props.addBodyOfMessage(props.message.id)}>
           {props.message.subject} 
         </a>
       </div>
     </div>
-      {/* <div class= { addBodyOfMessage() === true ? "row message-body" : "hidden"}>
-          <div class={true ? "col-xs-11 col-xs-offset-1" : 'hidden'}>
-            {props.addBodyOfMessage}
-          </div>
+      <div class= {props.bodyId === props.message.id ? "row message-body" : "hidden"}>
+        <div class="col-xs-11 col-xs-offset-1">
+          {props.message.body}
         </div>
-         */}
+      </div>
     </div>
     )
   }

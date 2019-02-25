@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
       messages: [],
       toggle : false,
-      bodyOfMessage: true
+      bodyOfMessage: true,
+      bodyId: null,
     }
   }
 
@@ -169,10 +170,6 @@ composeForm = () => {
   })
   }
 
-// getBodyofEmail = (event) => {
-//   let getBody
-// }
-
 subjectOfEmail = (event) => {
   event.preventDefault()
   let subject = event.target.value
@@ -209,10 +206,17 @@ submitForm = () => {
   }
 
   addBodyOfMessage = (id) => {
-    let findMessage = this.state.messages.filter(message => message.id === id).map(message => message.body)
-    console.log(findMessage[0])
-    return findMessage[0]
-    }
+    console.log(id)
+    if(this.state.bodyId === id){
+      this.setState({
+        bodyId: null
+      })
+    }else(
+    this.setState({
+      bodyId: id
+    })
+    )
+  }
 
   render() {
     return (
@@ -221,7 +225,7 @@ submitForm = () => {
         />
         <div> {this.state.toggle ? <Compose submitForm={this.submitForm} bodyofEmail={this.bodyofEmail} subjectOfEmail={this.subjectOfEmail}/> : ''}
         </div>
-        <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage} 
+        <MessageList messages={this.state.messages} messageSelect={this.messageSelect} starTheMessage={this.starTheMessage} addBodyOfMessage={this.addBodyOfMessage} bodyId={this.state.bodyId}
         />
       </div>
     );
