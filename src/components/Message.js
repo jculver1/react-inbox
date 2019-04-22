@@ -1,16 +1,6 @@
 import React from 'react';
 import '../App.css';
 
-// let addBody = {
-//        <div class= { addBodyOfMessage() === true ? "row message-body" : "hidden"}>
-//           <div class={true ? "col-xs-11 col-xs-offset-1" : 'hidden'}>
-//             {props.addBodyOfMessage}
-//           </div>
-//         </div>
-         
-// }
-
-
 let Message = (props) => {
     return (
       <div>
